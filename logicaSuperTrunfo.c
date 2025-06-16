@@ -1,7 +1,9 @@
+// Bibliotecas necessárias
 #include <stdio.h>
 #include <locale.h>
 #include <string.h>
 
+// Variáveis
 typedef struct {
     char nome[50];
     char estado[30];
@@ -12,6 +14,7 @@ typedef struct {
     float pib_per_capita;
 } Carta;
 
+ // Lê as cartas
 void lerCarta(Carta *carta) {
     printf("Digite o nome do estado: ");
     fgets(carta->estado, sizeof(carta->estado), stdin);
@@ -34,7 +37,7 @@ void lerCarta(Carta *carta) {
     printf("Digite a área da cidade: ");
     scanf("%f", &carta->area);
 
-    getchar(); // Limpa o '\n' do buffer, principalmente por que estava dando erro de ler o estado e a cidade.
+    getchar(); // Limpa o '\n' do buffer, principalmente por que estava dando erro de ler o estado e a cidade
 
     // Calcula densidade populacional e PIB per capita
     if (carta->area > 0)
@@ -61,7 +64,8 @@ void mostrarCarta(Carta *carta) {
 }
 
 int main() {
-    setlocale(LC_ALL, "Portuguese_Brazil.1252");
+ // Adapta o código para a leitura de caractéres especiais
+    setlocale(LC_ALL, "Portuguese");
 
     Carta carta1, carta2;
     int opcao;
@@ -72,6 +76,7 @@ int main() {
     printf("\nCadastro da segunda carta:\n");
     lerCarta(&carta2);
 
+// Deixa o usuário escolher que aributo ele deseja comparar
     printf("\nEscolha o atributo para comparar:\n");
     printf("1 - População\n2 - Pontos turísticos\n3 - PIB\n4 - Área\n5 - Densidade populacional\n6 - PIB per capita\n");
     printf("Opção: ");
@@ -81,7 +86,7 @@ int main() {
     mostrarCarta(&carta1);
     printf("\nCarta 2:");
     mostrarCarta(&carta2);
-
+// E finalmente mostra o resultado da comparação de acordo com o atributo escolhido
     printf("\nResultado da comparação: ");
     switch(opcao) {
         case 1:
