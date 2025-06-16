@@ -8,6 +8,8 @@ typedef struct {
     char codigo[30];
     int populacao, turismo;
     float pib, area;
+    float densidade;
+    float pib_per_capita;
 } Carta;
 
 void lerCarta(Carta *carta) {
@@ -32,6 +34,18 @@ void lerCarta(Carta *carta) {
     printf("Digite a área da cidade: ");
     scanf("%f", &carta->area);
 
+    getchar(); // Limpa o '\n' do buffer, principalmente por que estava dando erro de ler o estado e a cidade.
+
+    // Calcula densidade populacional e PIB per capita
+    if (carta->area > 0)
+        carta->densidade = carta->populacao / carta->area;
+    else
+        carta->densidade = 0;
+
+    if (carta->populacao > 0)
+        carta->pib_per_capita = carta->pib / carta->populacao;
+    else
+        carta->pib_per_capita = 0;
 }
 
 void mostrarCarta(Carta *carta) {
@@ -42,6 +56,8 @@ void mostrarCarta(Carta *carta) {
     printf("Pontos turísticos: %d\n", carta->turismo);
     printf("PIB: %.2f\n", carta->pib);
     printf("Área: %.2f\n", carta->area);
+    printf("Densidade populacional: %.2f hab/km²\n", carta->densidade);
+    printf("PIB per capita: %.2f\n", carta->pib_per_capita);
 }
 
 int main() {
@@ -57,7 +73,7 @@ int main() {
     lerCarta(&carta2);
 
     printf("\nEscolha o atributo para comparar:\n");
-    printf("1 - População\n2 - Pontos turísticos\n3 - PIB\n4 - Área\n");
+    printf("1 - População\n2 - Pontos turísticos\n3 - PIB\n4 - Área\n5 - Densidade populacional\n6 - PIB per capita\n");
     printf("Opção: ");
     scanf("%d", &opcao);
 
@@ -99,6 +115,22 @@ int main() {
                 printf("Carta 2 vence (área maior).\n");
             else
                 printf("Empate (área igual).\n");
+            break;
+        case 5:
+            if (carta1.densidade > carta2.densidade)
+                printf("Carta 1 vence (maior densidade populacional).\n");
+            else if (carta1.densidade < carta2.densidade)
+                printf("Carta 2 vence (maior densidade populacional).\n");
+            else
+                printf("Empate (mesma densidade populacional).\n");
+            break;
+        case 6:
+            if (carta1.pib_per_capita > carta2.pib_per_capita)
+                printf("Carta 1 vence (maior PIB per capita).\n");
+            else if (carta1.pib_per_capita < carta2.pib_per_capita)
+                printf("Carta 2 vence (maior PIB per capita).\n");
+            else
+                printf("Empate (mesmo PIB per capita).\n");
             break;
         default:
             printf("Opção inválida.\n");
